@@ -94,6 +94,64 @@ describe('Sailor Moon routes', () => {
         });
       });
   });
+
+  it('updates a sailor by id', async() => {
+    const sailor = await Sailor.insert({
+      sailorName: 'Sailor Pluto',
+      realName: 'Setsuna Meiou',
+      description: 'The coolest character.',
+      attack: 'Dead Scream',
+      zodiacSign: 'Scorpio',
+      imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+    });
+
+    return request(app)
+      .put(`/sailors/${sailor.id}`)
+      .send({
+        sailorName: 'Sailor Pluto',
+        realName: 'Setsuna Meiou',
+        description: 'She possesses powers that are associated with time, space, the underworld, and darkness.',
+        attack: 'Time Stop',
+        zodiacSign: 'Scorpio',
+        imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          sailorName: 'Sailor Pluto',
+          realName: 'Setsuna Meiou',
+          description: 'She possesses powers that are associated with time, space, the underworld, and darkness.',
+          attack: 'Time Stop',
+          zodiacSign: 'Scorpio',
+          imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+        });
+      });
+  });
+
+  it('deletes a sailor by id', async() => {
+    const sailor = await Sailor.insert({
+      sailorName: 'Sailor Pluto',
+      realName: 'Setsuna Meiou',
+      description: 'The coolest character.',
+      attack: 'Dead Scream',
+      zodiacSign: 'Scorpio',
+      imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+    });
+
+    return request(app)
+      .delete(`/sailors/${sailor.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          sailorName: 'Sailor Pluto',
+          realName: 'Setsuna Meiou',
+          description: 'The coolest character.',
+          attack: 'Dead Scream',
+          zodiacSign: 'Scorpio',
+          imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+        });
+      }); 
+  });
 });
 
 
