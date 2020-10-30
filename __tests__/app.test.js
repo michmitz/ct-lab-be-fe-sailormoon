@@ -69,6 +69,31 @@ describe('Sailor Moon routes', () => {
         }); 
       });
   });
+
+  it('gets a sailor by id', async() => {
+    const sailor = await Sailor.insert({
+        sailorName: 'Sailor Pluto',
+        realName: 'Setsuna Meiou',
+        description: 'The coolest character.',
+        attack: 'Dead Scream',
+        zodiacSign: 'Scorpio',
+        imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+    });
+
+    return request(app)
+      .get(`/sailors/${sailor.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          sailorName: 'Sailor Pluto',
+          realName: 'Setsuna Meiou',
+          description: 'The coolest character.',
+          attack: 'Dead Scream',
+          zodiacSign: 'Scorpio',
+          imageUrl: 'https://www.pngegg.com/en/png-kuyry'
+        });
+      });
+  });
 });
 
 
